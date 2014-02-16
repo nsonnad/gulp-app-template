@@ -1,17 +1,19 @@
-var gulp = require('gulp');
-var http = require('http');
+// Requirements
+var gulp        = require('gulp');
+var http        = require('http');
+var ecstatic    = require('ecstatic');
 
-var stylus = require('gulp-stylus');
-var jade = require('gulp-jade');
-var browserify = require('gulp-browserify');
-var concat = require('gulp-concat');
-var ecstatic = require('ecstatic');
-var uglify = require('gulp-uglify');
-var minifyCss = require('gulp-minify-css');
+// Gulp plugins
+var stylus      = require('gulp-stylus');
+var jade        = require('gulp-jade');
+var browserify  = require('gulp-browserify');
+var concat      = require('gulp-concat');
+var uglify      = require('gulp-uglify');
+var minifyCss   = require('gulp-minify-css');
 var runSequence = require('run-sequence');
-var reload = require('gulp-livereload');
-var embedlr = require('gulp-embedlr');
-var clean = require('gulp-clean');
+var reload      = require('gulp-livereload');
+var embedlr     = require('gulp-embedlr');
+var clean       = require('gulp-clean');
 
 var paths = {
   coffee: 'app/scripts/*.coffee',
@@ -22,6 +24,7 @@ var paths = {
   build: __dirname + '/build'
 };
 
+// Compile load modules with browserify, compile coffee and concat
 gulp.task('coffeeify', function () {
   return gulp.src(paths.app + '/scripts/app.coffee', {read: false })
     .pipe(browserify({
@@ -47,24 +50,28 @@ gulp.task('jade', function () {
     .pipe(reload());
 });
 
+// Inject livereload script into index.html
 gulp.task('embed-lr', ['jade'], function () {
   return gulp.src(paths.tmp + '/index.html')
     .pipe(embedlr())
     .pipe(gulp.dest(paths.tmp));
 });
 
+// Copy compiled css to build
 gulp.task('build-styles', function () {
   return gulp.src('.tmp/styles')
     .pipe(minifyCss())
     .pipe(gulp.dest(paths.build + '/styles'));
 });
 
+// Copy compiled js to build
 gulp.task('build-scripts', function () {
   return gulp.src('.tmp/scripts')
     .pipe(uglify())
     .pipe(gulp.dest(paths.build + '/scripts'));
 });
 
+// Copy html to build
 gulp.task('build-html', function () {
   return gulp.src('.tmp/*.html')
     .pipe(gulp.dest(paths.build));
@@ -88,16 +95,17 @@ gulp.task('server', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(paths.coffee, ['coffee']);
+  gulp.watch(paths.coffee, ['coffeeify']);
   gulp.watch(paths.stylus, ['stylus']);
   gulp.watch(paths.jade, ['jade']);
+
   console.log('Watching for changes...');
 });
 
 gulp.task('default', function (cb) {
   runSequence(
     'clean-tmp',
-    ['coffee', 'stylus', 'jade'],
+    ['coffeeify', 'stylus', 'jade'],
     'embed-lr',
     'server',
     'watch',
@@ -109,7 +117,7 @@ gulp.task('build', function (cb) {
   runSequence(
     'clean-tmp',
     'clean-build',
-    ['coffee', 'stylus', 'jade'],
+    ['coffeeify', 'stylus', 'jade'],
     ['build-scripts', 'build-styles', 'build-html'],
     cb
   );
