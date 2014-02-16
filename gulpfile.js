@@ -1,19 +1,19 @@
 // Requirements
-var gulp        = require('gulp');
-var http        = require('http');
-var ecstatic    = require('ecstatic');
+var gulp            = require('gulp');
+var http            = require('http');
+var ecstatic        = require('ecstatic');
 
 // Gulp plugins
-var stylus      = require('gulp-stylus');
-var jade        = require('gulp-jade');
-var browserify  = require('gulp-browserify');
-var concat      = require('gulp-concat');
-var uglify      = require('gulp-uglify');
-var minifyCss   = require('gulp-minify-css');
-var runSequence = require('run-sequence');
-var reload      = require('gulp-livereload');
-var embedlr     = require('gulp-embedlr');
-var clean       = require('gulp-clean');
+var browserify      = require('gulp-browserify');
+var stylus          = require('gulp-stylus');
+var jade            = require('gulp-jade');
+var concat          = require('gulp-concat');
+var uglify          = require('gulp-uglify');
+var minifyCss       = require('gulp-minify-css');
+var runSequence     = require('run-sequence');
+var livereload      = require('gulp-livereload');
+var embedLivereload = require('gulp-embedlr');
+var clean           = require('gulp-clean');
 
 var paths = {
   coffee: 'app/scripts/*.coffee',
@@ -33,7 +33,7 @@ gulp.task('coffeeify', function () {
     }))
     .pipe(concat('main.js'))
     .pipe(gulp.dest(paths.tmp + '/scripts'))
-    .pipe(reload());
+    .pipe(livereload());
 });
 
 gulp.task('stylus', function () {
@@ -41,20 +41,20 @@ gulp.task('stylus', function () {
     .pipe(stylus())
     .pipe(concat('main.css'))
     .pipe(gulp.dest(paths.tmp + '/styles'))
-    .pipe(reload());
+    .pipe(livereload());
 });
 
 gulp.task('jade', function () {
   return gulp.src(paths.jade)
     .pipe(jade())
     .pipe(gulp.dest(paths.tmp))
-    .pipe(reload());
+    .pipe(livereload());
 });
 
 // Inject livereload script into index.html
-gulp.task('embed-lr', ['jade'], function () {
+gulp.task('embedLivereload', ['jade'], function () {
   return gulp.src(paths.tmp + '/index.html')
-    .pipe(embedlr())
+    .pipe(embedLivereload())
     .pipe(gulp.dest(paths.tmp));
 });
 
@@ -103,24 +103,24 @@ gulp.task('watch', function () {
   console.log('Watching for changes...');
 });
 
-gulp.task('default', function (cb) {
+gulp.task('default', function (callback) {
   runSequence(
     'clean-tmp',
     ['coffeeify', 'stylus', 'jade'],
-    'embed-lr',
+    'embedLivereload',
     'server',
     'watch',
-    cb
+    callback
   );
 });
 
-gulp.task('build', function (cb) {
+gulp.task('build', function (callback) {
   runSequence(
     'clean-tmp',
     'clean-build',
     ['coffeeify', 'stylus', 'jade'],
     ['build-scripts', 'build-styles', 'build-html'],
-    cb
+    callback
   );
 });
 
