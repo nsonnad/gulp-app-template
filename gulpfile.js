@@ -24,7 +24,7 @@ var paths = {
   build: __dirname + '/build'
 };
 
-// Compile load modules with browserify, compile coffee and concat
+// Load modules with browserify, compile coffee and concat
 gulp.task('coffeeify', function () {
   return gulp.src(paths.app + '/scripts/main.coffee', {read: false })
     .pipe(browserify({
@@ -39,6 +39,7 @@ gulp.task('coffeeify', function () {
 gulp.task('stylus', function () {
   return gulp.src(paths.stylus)
     .pipe(stylus())
+    .pipe(concat('main.css'))
     .pipe(gulp.dest(paths.tmp + '/styles'))
     .pipe(reload());
 });
