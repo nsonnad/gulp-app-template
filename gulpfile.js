@@ -26,12 +26,12 @@ var paths = {
 
 // Compile load modules with browserify, compile coffee and concat
 gulp.task('coffeeify', function () {
-  return gulp.src(paths.app + '/scripts/app.coffee', {read: false })
+  return gulp.src(paths.app + '/scripts/main.coffee', {read: false })
     .pipe(browserify({
       transform: ['coffeeify'],
       extensions: ['.coffee']
     }))
-    .pipe(concat('app.js'))
+    .pipe(concat('main.js'))
     .pipe(gulp.dest(paths.tmp + '/scripts'))
     .pipe(reload());
 });
