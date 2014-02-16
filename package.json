@@ -22,6 +22,7 @@
     "run-sequence": "~0.3.5",
     "gulp-concat": "~2.1.7",
     "gulp-livereload": "~1.1.1",
-    "gulp-embedlr": "~0.5.2"
+    "gulp-embedlr": "~0.5.2",
+    "gulp-clean": "~0.2.4"
   }
 }
