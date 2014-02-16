@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var http = require('http');
-var fs = require('fs');
 
 var stylus = require('gulp-stylus');
 var jade = require('gulp-jade');
