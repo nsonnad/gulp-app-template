@@ -1,3 +1,1 @@
-d3 = require 'd3'
-
-console.log 'wtf'
+console.log 'double ristretto'

@@ -22,7 +22,7 @@ var paths = {
   build: __dirname + '/build'
 };
 
-gulp.task('coffee', function () {
+gulp.task('coffeeify', function () {
   return gulp.src(paths.app + '/scripts/app.coffee', {read: false })
     .pipe(browserify({
       transform: ['coffeeify'],
