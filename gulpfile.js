@@ -7,6 +7,7 @@ var coffee = require('gulp-coffee');
 var stylus = require('gulp-stylus');
 var jade = require('gulp-jade');
 var browserify = require('gulp-browserify');
+var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
 var rimraf = require('gulp-rimraf');
@@ -26,6 +27,7 @@ gulp.task('coffee', function () {
       transform: ['coffeeify'],
       extensions: ['.coffee']
     }))
+    .pipe(concat('app.js'))
     .pipe(gulp.dest('.tmp/scripts'));
 });
 
