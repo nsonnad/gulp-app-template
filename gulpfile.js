@@ -1,17 +1,18 @@
 var gulp = require('gulp');
 var http = require('http');
 var fs = require('fs');
-var ecstatic = require('ecstatic');
 
-var coffee = require('gulp-coffee');
 var stylus = require('gulp-stylus');
 var jade = require('gulp-jade');
 var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
+var ecstatic = require('ecstatic');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
 var rimraf = require('gulp-rimraf');
 var runSequence = require('run-sequence');
+var reload = require('gulp-livereload');
+var embedlr = require('gulp-embedlr');
 
 var paths = {
   coffee: 'app/scripts/*.coffee',
@@ -28,19 +29,28 @@ gulp.task('coffee', function () {
       extensions: ['.coffee']
     }))
     .pipe(concat('app.js'))
-    .pipe(gulp.dest('.tmp/scripts'));
+    .pipe(gulp.dest(tmpDir + '/scripts'))
+    .pipe(reload());
 });
 
 gulp.task('stylus', function () {
   return gulp.src(paths.stylus)
     .pipe(stylus())
-    .pipe(gulp.dest('.tmp/styles'));
+    .pipe(gulp.dest(tmpDir + '/styles'))
+    .pipe(reload());
 });
 
 gulp.task('jade', function () {
   return gulp.src(paths.jade)
     .pipe(jade())
-    .pipe(gulp.dest('.tmp'));
+    .pipe(embedlr())
+    .pipe(gulp.dest(tmpDir))
+    .pipe(reload());
+});
+
+gulp.task('embed-lr', ['jade'], function () {
+  return gulp.src('app/index.html')
+    .pipe(gulp.dest(tmpDir));
 });
 
 gulp.task('build-styles', function () {
@@ -78,6 +88,7 @@ gulp.task('default', function (cb) {
   runSequence(
     'clean-tmp',
     ['coffee', 'stylus', 'jade'],
+    //'embed-lr',
     'server',
     'watch',
     cb
