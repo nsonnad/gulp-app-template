@@ -8,8 +8,9 @@ Minimalist template for making single-page apps with
 
 Easy to use.
 
-  `git clone git@github.com:nsonnad/gulp-app-template.git`
-  `npm install`
+    `git clone git@github.com:nsonnad/gulp-app-template.git app-name`
+    `cd app-name`
+    `npm install`
 
 Install all browser dependencies with `npm install`, and include them in your
 browser code with `require('module')`. Run `gulp` to create a livereload-cabaple
