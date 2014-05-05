@@ -4,10 +4,9 @@ var handleErrors = require('../util/handleErrors');
 var source = require('vinyl-source-stream');
 var config = require('../config');
 
-gulp.task('browserify', ['clean'], function(){
+gulp.task('browserify', function(){
   return browserify({
     entries: ['./src/js/app.js']
-    //extensions: ['.coffee', '.hbs']
   })
   .bundle({debug: true})
   .on('error', handleErrors)

@@ -1,3 +1,3 @@
 var gulp = require('gulp');
 
-gulp.task('build', ['clean', 'browserify', 'stylus', 'copy']);
+gulp.task('build', ['browserify', 'stylus', 'copy']);
