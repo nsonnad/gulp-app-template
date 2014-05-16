@@ -7,6 +7,8 @@ var config = require('../config');
 gulp.task('browserify', function(){
   return browserify({
     entries: ['./src/js/app.js']
+    // if you want coffee:
+    //extensions: ['.coffee', '.hbs']
   })
   .bundle({debug: true})
   .on('error', handleErrors)

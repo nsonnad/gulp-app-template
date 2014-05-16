@@ -1,6 +1,6 @@
 {
-  "name": "tablebuilder",
-  "version": "0.0.0",
+  "name": "gulp-app-template",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,13 +8,12 @@
   },
   "author": "Nikhil Sonnad",
   "license": "ISC",
-  "dependencies": {
-    "gulp-clean": "^0.2.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "browser-sync": "^0.8.2",
     "browserify": "^3.44.2",
     "gulp": "^3.6.2",
+    "gulp-clean": "^0.2.4",
     "gulp-notify": "^1.2.5",
     "gulp-stylus": "^1.0.0",
     "npmlog": "0.0.6",
